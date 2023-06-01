@@ -1,2 +1,3 @@
-y!');
-  } catch (error) {
+  data = await requestPlayerData("origin", "aclownsquad");
+
+  console.log(data);

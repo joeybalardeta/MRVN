@@ -1,10 +1,24 @@
 require("dotenv").config();
-const { REST, Routes } = require("discord.js");
+const { REST, Routes, ApplicationCommandOptionType } = require("discord.js");
 
 const commands = [
   {
     name: "overview",
     description: "Replies with basic overview of the requested user's Apex Legends statistics.",
+    options: [
+        {
+          name: "platform",
+          description: "The platform of the user.",
+          type: ApplicationCommandOptionType.String,
+          required: true,
+        },
+        {
+          name: "username",
+          description: "The username of the user.",
+          type: ApplicationCommandOptionType.String,
+          required: true,
+        },
+      ],
   }
 ];
 

@@ -1,6 +1,8 @@
 require("dotenv").config();
 const { Client, IntentsBitField } = require("discord.js");
 const { register_commands } = require("./register-commands");
+const commandHandler = require("./handlers/command-handler");
+const { requestPlayerData } = require("./https/apex-trn-request");
 
 const client = new Client({
   intents: [
@@ -16,14 +18,19 @@ client.on("ready", (c) => {
   const Guilds = client.guilds.cache.map(guild => guild.id);
 
   register_commands(Guilds);
+
+  client.user.setActivity({name: "Attrition on Angel City."});
 });
 
-client.on("interactionCreate", (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
+commandHandler(client);
 
-  if (interaction.commandName === "overview") {
-    return interaction.reply("Here's an overview!");
-  }
-});
+async function getPlayerData() {
+  data = await requestPlayerData("origin", "aclownsquad");
+
+  console.log(data['segments']);
+}
+
+getPlayerData();
+
 
 client.login(process.env.TOKEN);
