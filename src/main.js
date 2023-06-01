@@ -1,5 +1,6 @@
-require('dotenv').config();
-const { Client, IntentsBitField } = require('discord.js');
+require("dotenv").config();
+const { Client, IntentsBitField } = require("discord.js");
+const { register_commands } = require("./register-commands");
 
 const client = new Client({
   intents: [
@@ -10,17 +11,18 @@ const client = new Client({
   ],
 });
 
-client.on('ready', (c) => {
+client.on("ready", (c) => {
   console.log(`${c.user.tag} is online.`);
+  const Guilds = client.guilds.cache.map(guild => guild.id);
+
+  register_commands(Guilds);
 });
 
-client.on('messageCreate', (message) => {
-  if (message.author.bot) {
-    return;
-  }
+client.on("interactionCreate", (interaction) => {
+  if (!interaction.isChatInputCommand()) return;
 
-  if (message.content === 'hello') {
-    message.reply('hello');
+  if (interaction.commandName === "overview") {
+    return interaction.reply("Here's an overview!");
   }
 });
 
