@@ -20,6 +20,11 @@ module.exports = async function (interaction) {
 
     data = await requestPlayerData(platform, username);
 
+    if (data == null) {
+        interaction.reply("Error getting stats of player, please verify the account is valid on tracker network.");
+        return;
+    }
+
     const embed = new EmbedBuilder()
         .setTitle(`${data['platformInfo']['platformUserId']}'s Apex Legends Statistics`)
         .setColor('ff0000')
@@ -27,20 +32,76 @@ module.exports = async function (interaction) {
         .addFields(
             {
                 name: 'Account Level',
-                value: '1000',
+                value: getLevel(data),
                 inline: true,
             },
             {
-                name: 'Overall Kills',
-                value: '1000',
+                name: 'Lifetime Kills',
+                value: getLifetimeKills(data),
                 inline: true,
             },
             {
-                name: 'Overall K/D',
-                value: '10.0',
+                name: 'Lifetime Wins',
+                value: getLifetimeWins(data),
+                inline: true,
+            },
+            {
+                name: 'Lifetime Damage',
+                value: getLifetimeDamage(data),
+                inline: true,
+            },
+            {
+                name: 'Ranked Points',
+                value: getRankedPoints(data),
                 inline: true,
             }
         );
     
     interaction.reply({ embeds: [embed] });
 };
+
+function getStats(data) {
+
+    return data['segments'][0]['stats'];
+}
+
+function getLevel(data) {
+    try {
+        return getStats(data)['level']['displayValue'];
+    } catch (error) {
+        return "N/A";
+    }
+    
+}
+
+function getLifetimeKills(data) {
+    try {
+        return getStats(data)['kills']['displayValue'];
+    } catch (error) {
+        return "N/A";
+    }
+}
+
+function getLifetimeWins(data) {
+    try {
+        return getStats(data)['wins']['displayValue'];
+    } catch (error) {
+        return "N/A";
+    }
+}
+
+function getLifetimeDamage(data) {
+    try {
+        return getStats(data)['damage']['displayValue'];
+    } catch (error) {
+        return "N/A";
+    }
+}
+
+function getRankedPoints(data) {
+    try {
+        return getStats(data)['rankScore']['displayValue'];
+    } catch (error) {
+        return "N/A";
+    }
+}

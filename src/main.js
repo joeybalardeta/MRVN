@@ -19,7 +19,7 @@ client.on("ready", (c) => {
 
   register_commands(Guilds);
 
-  client.user.setActivity({name: "Attrition on Angel City."});
+  client.user.setActivity({name: "Attrition on Angel City"});
 });
 
 commandHandler(client);
@@ -27,10 +27,10 @@ commandHandler(client);
 async function getPlayerData() {
   data = await requestPlayerData("origin", "aclownsquad");
 
-  console.log(data['segments']);
+  console.log(data);
 }
 
-getPlayerData();
+// getPlayerData();
 
 
 client.login(process.env.TOKEN);

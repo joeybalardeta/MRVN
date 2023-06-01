@@ -5,6 +5,13 @@ exports.requestPlayerData = async function(platform, username) {
     const response = await fetch(`https://public-api.tracker.gg/v2/apex/standard/profile/${platform}/${username}`, { method: 'GET', headers: { 'TRN-Api-Key': process.env.TRN_API_KEY } });
 
     const data = await response.json();
+
+    if (response.status == 200) {
+        return data['data'];
+    }
+    else {
+        console.log("Error " + response.status + " - " + response.statusText)
+        return null;
+    }
     
-    return data['data'];
 }

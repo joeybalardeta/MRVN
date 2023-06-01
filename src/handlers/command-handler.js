@@ -20,6 +20,7 @@ module.exports = (client) => {
         if (!interaction.isChatInputCommand()) return;
       
         if (interaction.commandName === "overview") {
+            console.log(`Handling '/overview' command requested for ${interaction.options.get("username").value}...`)
             overview(interaction);
             return;
         }

@@ -1,3 +1,1 @@
-  data = await requestPlayerData("origin", "aclownsquad");
-
-  console.log(data);
+data['segments'][0]
